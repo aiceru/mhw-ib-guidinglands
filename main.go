@@ -1,34 +1,3 @@
-/*package main
-
-import (
-	"github.com/codegangsta/negroni"
-	"github.com/julienschmidt/httprouter"
-	"github.com/unrolled/render"
-	"net/http"
-)
-
-var renderer *render.Render
-
-func init() {
-	renderer = render.New()
-}
-
-func mainpage(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
-	renderer.HTML(w, http.StatusOK, "index", map[string]string{"title": "MHW IB Guiding Land Monster List"})
-}
-
-func main() {
-	router := httprouter.New()
-
-	router.GET("/", mainpage)
-
-	n := negroni.Classic()
-	n.UseHandler(router)
-	n.Run(":8080")
-}
-
-*/
-
 package main
 
 import (
@@ -36,14 +5,21 @@ import (
 	"fmt"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"google.golang.org/api/sheets/v4"
+
+	"github.com/codegangsta/negroni"
+	"github.com/julienschmidt/httprouter"
+	"github.com/unrolled/render"
 )
 
 // Retrieve a token, saves the token, then returns the generated client.
@@ -101,7 +77,7 @@ func saveToken(path string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
-func getData(monsters []Monster) error {
+func getData() error {
 	b, err := ioutil.ReadFile("data/credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -131,14 +107,15 @@ func getData(monsters []Monster) error {
 		return err
 	}
 
-	makeMonsterList(monsters, mlist)
+	makeMonsterList(mlist)
 
-/*	readRange = "출현 몬스터 Ver.가로!B18:I38"
+	readRange = "출현 몬스터 Ver.가로!B18:I38"
 	forest, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 		return err
 	}
+	makeHabitatList(Forest, forest)
 
 	readRange = "출현 몬스터 Ver.가로!B43:I62"
 	wildspire, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
@@ -146,6 +123,7 @@ func getData(monsters []Monster) error {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 		return err
 	}
+	makeHabitatList(Wildspire, wildspire)
 
 	readRange = "출현 몬스터 Ver.가로!B67:I83"
 	coral, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
@@ -153,34 +131,86 @@ func getData(monsters []Monster) error {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 		return err
 	}
+	makeHabitatList(Coral, coral)
 
 	readRange = "출현 몬스터 Ver.가로!B88:I100"
 	rotten, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 		return err
-	}*/
+	}
+	makeHabitatList(Rotten, rotten)
 
-	/*if len(resp.Values) == 0 {
-		fmt.Println("No data found.")
-	} else {
-		fmt.Println("Name, Major:")
-		for _, row := range resp.Values {
-			// Print columns A and E, which correspond to indices 0 and 4.
-			fmt.Printf("%s, %s, %s, %s\n", row[0], row[1], row[2], row[3])
-		}
-	}*/
 	return nil
 }
 
-func makeMonsterList(monsters []Monster, v *sheets.ValueRange) {
+func makeMonsterList(v *sheets.ValueRange) {
 	if len(v.Values) == 0 {
 		log.Println("No data found.")
 		return
 	}
-	for i, row := range v.Values {
-		monsters[i].Name = row[0].(string)
+	for _, row := range v.Values {
+		name := row[0].(string)
+		if row[2].(string) != "X" {
+			m := &MonsterInfo{
+				Name:       name,
+				Difficulty: Normal,
+				Item:       row[2].(string),
+				Habitat:    [4][7]int{},
+			}
+			monsters[m.Difficulty.String()+name] = m
+		}
+		if row[4].(string) != "X" {
+			m := &MonsterInfo{
+				Name:       name,
+				Difficulty: Tempered,
+				Item:       row[4].(string),
+				Habitat:    [4][7]int{},
+			}
+			monsters[m.Difficulty.String()+name] = m
+		}
 	}
+}
+
+func makeHabitatList(field int, v *sheets.ValueRange) {
+	var diff difficulty
+
+	for _, row := range v.Values {
+		for i, star := range row[1:] {
+			starString := star.(string)
+			nFreq := strings.Count(starString, "★")
+			if nFreq > 0 {
+				diff = Normal
+				monsterInfo := monsters[diff.String()+row[0].(string)]
+				monsterInfo.Habitat[field][i] = nFreq
+			} else {
+				tFreq := strings.Count(starString, "☆")
+				if tFreq > 0 {
+					diff = Tempered
+					monsterInfo := monsters[diff.String()+row[0].(string)]
+					monsterInfo.Habitat[field][i] = tFreq
+				}
+			}
+		}
+	}
+}
+
+const (
+	Forest		= iota
+	Wildspire
+	Coral
+	Rotten
+)
+
+type difficulty int
+func (t difficulty) String() string {
+	switch t {
+	case Normal:
+		return ""
+	case Tempered:
+		return "역전 "
+	}
+	return ""
 }
 
 const (
@@ -188,22 +218,177 @@ const (
 	Tempered
 )
 
-type Monster struct {
-	Name 		string
-	Info		map[string]MonsterInfo
-}
-
 type MonsterInfo struct {
-	Type		int
+	Name		string
+	Difficulty	difficulty
 	Item 		string
 	Habitat		[4][7]int
 }
 
-func marshalSheet(valueRange *sheets.ValueRange) {
+func (m MonsterInfo) String() string {
+	return m.Difficulty.String() + m.Name
+}
 
+var renderer *render.Render
+var monsters map[string]*MonsterInfo
+
+func init() {
+	renderer = render.New(render.Options{
+		Layout: "layout_main",
+		Funcs: []template.FuncMap{
+			{
+				"Iterate": func(start, count int) []int {
+					var Items []int
+					for i := start; i < start+count; i++ {
+						Items = append(Items, i)
+					}
+					return Items
+				},
+			},
+			{
+				"Newline": func(i int) bool {
+					if i % 4 == 3 {
+						return true
+					}
+					return false
+				},
+			},
+		},
+	})
+	monsters = make(map[string]*MonsterInfo)
+}
+
+func mainpage(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	renderer.HTML(w, http.StatusOK, "monster_lists", map[string]interface{}{
+		"flv": 1,
+		"wlv": 1,
+		"clv": 1,
+		"rlv": 1,
+	})
+}
+
+func findleft(list [7]int, pos int) bool {
+	for i := pos; i >= 0; i-- {
+		if list[i] > 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func findright(list [7]int, pos int) bool {
+	for i := pos; i < 7; i++ {
+		if list[i] > 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func contains(s []string, t string) bool {
+	for _, i := range s {
+		if i == t {
+			return true
+		}
+	}
+	return false
+}
+
+func whatYouCannotSeeHere(result *[4][]*MonsterInfo, lvs []int) {
+	for _, monsterInfo := range monsters {
+		for field, current_lv := range lvs {
+			if findleft(monsterInfo.Habitat[field], current_lv-2) && !findright(monsterInfo.Habitat[field], current_lv-1) {
+				result[field] = append(result[field], monsterInfo)
+			}
+		}
+	}
+}
+
+func whatYouCannotSee(result *[]*MonsterInfo, mlist *[4][]*MonsterInfo, lvs []int) {
+	for field := Forest; field <= Rotten; field++ {
+		for _, monsterInfo := range mlist[field] {
+			appearsInOtherField := false
+			for otherField := Forest; otherField <= Rotten; otherField++ {
+				if otherField == field {
+					continue
+				}
+				if findright(monsterInfo.Habitat[otherField], lvs[otherField]-1) {
+					appearsInOtherField = true
+					break
+				}
+			}
+			if !appearsInOtherField {
+				*result = append(*result, monsterInfo)
+			}
+		}
+	}
+}
+
+func calculateLists(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	req.ParseForm()
+	fLv, _ :=	strconv.Atoi(req.FormValue("forest_lev")[0:])
+	wLv, _ :=	strconv.Atoi(req.FormValue("wild_lev")[0:])
+	cLv, _ :=	strconv.Atoi(req.FormValue("coral_lev")[0:])
+	rLv, _ :=	strconv.Atoi(req.FormValue("rotten_lev")[0:])
+
+	currentLvs := []int{fLv, wLv, cLv, rLv}
+	var cannotSeeLists [4][]*MonsterInfo
+	var totalLists []*MonsterInfo
+	var cannotSeeIfFields [4][]*MonsterInfo
+	var cannotSeeIfs [4][]*MonsterInfo
+
+	whatYouCannotSeeHere(&cannotSeeLists, currentLvs)
+	whatYouCannotSee(&totalLists, &cannotSeeLists, currentLvs)
+
+	futureLvs := make([]int, 4)
+	for field := Forest; field <= Rotten; field++ {
+		if currentLvs[field] >= 7 {
+			continue
+		}
+		copy(futureLvs, currentLvs)
+		futureLvs[field]++
+
+		for i := 0; i < 4; i++ {
+			cannotSeeIfFields[i] = cannotSeeIfFields[i][:0]
+		}
+		whatYouCannotSeeHere(&cannotSeeIfFields, futureLvs)
+		whatYouCannotSee(&cannotSeeIfs[field], &cannotSeeIfFields, futureLvs)
+	}
+
+
+	renderer.HTML(w, http.StatusOK, "monster_lists",
+		map[string]interface{}{
+			"flv":                 fLv,
+			"wlv":                 wLv,
+			"clv":                 cLv,
+			"rlv":                 rLv,
+			"NotAppearList":       totalLists,
+			"ForestNotAppearList": cannotSeeLists[Forest],
+			"WildNotAppearList":   cannotSeeLists[Wildspire],
+			"CoralNotAppearList":  cannotSeeLists[Coral],
+			"RottenNotAppearList": cannotSeeLists[Rotten],
+			"NotIfForestUp":       cannotSeeIfs[Forest],
+			"NotIfWildUp":         cannotSeeIfs[Wildspire],
+			"NotIfCoralUp":        cannotSeeIfs[Coral],
+			"NotIfRottenUp":       cannotSeeIfs[Rotten],
+		})
 }
 
 func main() {
-	monsters := make([]Monster, 42)
-	getData(monsters)
+	getData()
+
+/*	for k, m := range monsters {
+		fmt.Println(k, m.Info[Normal], m.Info[Tempered])
+	}*/
+
+	router := httprouter.New()
+
+	router.GET("/", mainpage)
+	router.POST("/", calculateLists)
+
+
+
+	n := negroni.Classic()
+	n.UseHandler(router)
+	n.Run(":8080")
 }

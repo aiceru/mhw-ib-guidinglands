@@ -1,0 +1,43 @@
+<div class="container" align="center">
+    <form method="POST">
+        <div class="row justify-content-center">
+            <div class="col-sm">
+                삼림
+                <select class="mdb-select md-form" id="forest_lev" name="forest_lev">
+                    {{ range $i := Iterate 1 7 }}
+                        <option value="{{$i}}" {{if eq $.flv $i}}selected="selected"{{end}}>{{$i}}</option>
+                    {{ end }}
+                </select>
+                레벨
+            </div>
+            <div class="col-sm">
+                황야
+                <select class="mdb-select md-form" id="wild_lev" name="wild_lev">
+                    {{ range $i := Iterate 1 7 }}
+                        <option value="{{$i}}" {{if eq $.wlv $i}}selected="selected"{{end}}>{{$i}}</option>
+                    {{ end }}
+                </select>
+                레벨
+            </div>
+            <div class="col-sm">
+                육산호
+                <select class="mdb-select md-form" id="coral_lev" name="coral_lev">
+                    {{ range $i := Iterate 1 7 }}
+                        <option value="{{$i}}" {{if eq $.clv $i}}selected="selected"{{end}}>{{$i}}</option>
+                    {{ end }}
+                </select>
+                레벨
+            </div>
+            <div class="col-sm">
+                독기
+                <select class="mdb-select md-form" id="rotten_lev" name="rotten_lev">
+                    {{ range $i := Iterate 1 7 }}
+                        <option value="{{$i}}" {{if eq $.rlv $i}}selected="selected"{{end}}>{{$i}}</option>
+                    {{ end }}
+                </select>
+                레벨
+            </div>
+        </div>
+        <p class="p-3"><button type="submit" class="btn btn-primary">Go</button></p>
+    </form>
+</div>

@@ -1,0 +1,70 @@
+{{ define "you_cannot_see" }}
+    <div class="container">
+        <h5>안나와요</h5>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th style="width: 20%">지대</th>
+                <th style="width: 80%">안나와요</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    전체
+                </td>
+                <td>
+                    {{range $i, $monster := .NotAppearList}}
+                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                    {{end}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    삼림
+                </td>
+                <td>
+                    {{range $i, $monster := .ForestNotAppearList}}
+                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                    {{end}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    황야
+                </td>
+                <td>
+                    {{range $i, $monster := .WildNotAppearList}}
+                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                    {{end}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    육산호
+                </td>
+                <td>
+                    {{range $i, $monster := .CoralNotAppearList}}
+                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                    {{end}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    독기
+                </td>
+                <td>
+                    {{range $i, $monster := .RottenNotAppearList}}
+                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                    {{end}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{{ end }}

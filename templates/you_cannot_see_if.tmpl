@@ -1,0 +1,67 @@
+{{ define "you_cannot_see_if" }}
+    <div class="container">
+        <h5>렙 올리면 안나와요</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 20%">여기 올리면</th>
+                    <th style="width: 80%">안나와요</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{if ne $.flv 7}}
+                <tr>
+                    <td style="width: 30%">
+                        삼림 1 올리면
+                    </td>
+                    <td style="width: 70%">
+                        {{range $i, $monster := .NotIfForestUp}}
+                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                        {{end}}
+                    </td>
+                </tr>
+            {{end}}
+            {{if ne $.wlv 7}}
+                <tr>
+                    <td>
+                        황야 1 올리면
+                    </td>
+                    <td>
+                        {{range $i, $monster := .NotIfWildUp}}
+                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                        {{end}}
+                    </td>
+                </tr>
+            {{end}}
+            {{if ne $.clv 7}}
+                <tr>
+                    <td>
+                        육산호 1 올리면
+                    </td>
+                    <td>
+                        {{range $i, $monster := .NotIfCoralUp}}
+                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                        {{end}}
+                    </td>
+                </tr>
+            {{end}}
+            {{if ne $.rlv 7}}
+                <tr>
+                    <td>
+                        독기 1 올리면
+                    </td>
+                    <td>
+                        {{range $i, $monster := .NotIfRottenUp}}
+                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                        {{end}}
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+    </div>
+{{ end }}
