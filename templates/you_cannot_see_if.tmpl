@@ -11,10 +11,10 @@
             <tbody>
             {{if ne $.flv 7}}
                 <tr>
-                    <td style="width: 30%">
+                    <td>
                         삼림 1 올리면
                     </td>
-                    <td style="width: 70%">
+                    <td>
                         {{range $i, $monster := .NotIfForestUp}}
                             {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                             [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
