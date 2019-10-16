@@ -16,7 +16,7 @@
                     </td>
                     <td>
                         {{range $i, $monster := .NotIfForestUp}}
-                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                             [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                         {{end}}
                     </td>
@@ -29,7 +29,7 @@
                     </td>
                     <td>
                         {{range $i, $monster := .NotIfWildUp}}
-                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                             [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                         {{end}}
                     </td>
@@ -42,7 +42,7 @@
                     </td>
                     <td>
                         {{range $i, $monster := .NotIfCoralUp}}
-                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                             [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                         {{end}}
                     </td>
@@ -55,7 +55,20 @@
                     </td>
                     <td>
                         {{range $i, $monster := .NotIfRottenUp}}
-                            {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                            [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                        {{end}}
+                    </td>
+                </tr>
+            {{end}}
+            {{if ne $.llv 7}}
+                <tr>
+                    <td>
+                        용암 1 올리면
+                    </td>
+                    <td>
+                        {{range $i, $monster := .NotIfLavaUp}}
+                            {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                             [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                         {{end}}
                     </td>

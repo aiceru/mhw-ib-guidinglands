@@ -1,0 +1,76 @@
+<div class="container" align="center">
+    <p class="h4 p-4">몬스터 소재 체크리스트</p>
+</div>
+<div class="container">
+    <table class="table table-striped table-bordered table-sm">
+        <thead>
+        <tr>
+            <th style="width: 20%">Name</th>
+            <th style="width: 35%">일반 개체 소재</th>
+            <th style="width: 5%"></th>
+            <th style="width: 35%">역전 개체 소재</th>
+            <th style="width: 5%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $key, $monster := .ItemList}}
+            {{if eq $monster.Difficulty 0}}
+                {{$tempered := GetTemperedMonster $key}}
+                <tr>
+                    <td id="{{$monster.Name}}">
+                        {{$monster.Name}}
+                    </td>
+                    <td id="{{$monster.Code}}">
+                        {{$monster.Item}}
+                    </td>
+                    <td>
+                        <form>
+                            <input type="checkbox" id="{{print "itemBox" $monster.Code}}">
+                        </form>
+                    </td>
+                    <td id="{{$tempered.Code}}">
+                        {{if ne $tempered.Item ""}}
+                            {{$tempered.Item}}
+                        {{end}}
+                    </td>
+                    <td>
+                        {{if ne $tempered.Item ""}}
+                            <form>
+                                <input type="checkbox" id="{{print "itemBox" $tempered.Code}}">
+                            </form>
+                        {{end}}
+                    </td>
+                </tr>
+                <script>
+                    $(document).ready(function() {
+                        let checked="true"==localStorage.getItem("{{print "itemBox" $monster.Code}}");
+                        let bgColor=document.getElementById('{{$monster.Name}}').style.backgroundColor
+                        document.getElementById('{{$monster.Code}}').style.backgroundColor=
+                            (checked)? '#FED067' : bgColor;
+                        $("#{{print "itemBox" $monster.Code}}").prop('checked', checked);
+                        $("#{{print "itemBox" $monster.Code}}").click(function() {
+                            let checked=$("#{{print "itemBox" $monster.Code}}").is(":checked");
+                            localStorage.setItem("{{print "itemBox" $monster.Code}}", checked);
+                            document.getElementById('{{$monster.Code}}').style.backgroundColor=
+                                (checked)? '#FED067' : bgColor;
+                        });
+
+                        {{if ne $tempered.Item ""}}
+                        let Tchecked="true"==localStorage.getItem("{{print "itemBox" $tempered.Code}}");
+                        document.getElementById('{{$tempered.Code}}').style.backgroundColor=
+                            (Tchecked)? '#DB94FF' : bgColor;
+                        $("#{{print "itemBox" $tempered.Code}}").prop('checked', Tchecked);
+                        $("#{{print "itemBox" $tempered.Code}}").click(function() {
+                            let checked = $("#{{print "itemBox" $tempered.Code}}").is(":checked");
+                            localStorage.setItem("{{print "itemBox" $tempered.Code}}", checked);
+                            document.getElementById('{{$tempered.Code}}').style.backgroundColor=
+                                (checked)? '#DB94FF' : bgColor;
+                        });
+                        {{end}}
+                    });
+                </script>
+            {{end}}
+        {{end}}
+        </tbody>
+    </table>
+</div>

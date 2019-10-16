@@ -10,11 +10,13 @@ import (
 	"strconv"
 )
 
-const (			// Fields
+const ( // Fields
 	Forest = iota
 	Wildspire
 	Coral
 	Rotten
+	Lava
+	FIELD_MAX
 )
 
 type difficulty int
@@ -25,6 +27,8 @@ func (t difficulty) String() string {
 		return ""
 	case Tempered:
 		return "역전 "
+	case Wounded:
+		return "상처입은 "
 	}
 	return ""
 }
@@ -32,6 +36,7 @@ func (t difficulty) String() string {
 const (
 	Normal = iota
 	Tempered
+	Wounded
 )
 
 type MonsterInfo struct {
@@ -39,15 +44,11 @@ type MonsterInfo struct {
 	Name       string
 	Difficulty difficulty
 	Item       string
-	Habitat    [4][7]int
-}
-
-func (m MonsterInfo) String() string {
-	return m.Difficulty.String() + m.Name
+	Habitat    [FIELD_MAX][7]int
 }
 
 func (m MonsterInfo) Copy(l *MonsterInfo) {
-	for i := Forest; i <= Rotten; i++ {
+	for i := Forest; i < FIELD_MAX; i++ {
 		for j := 0; j < 7; j++ {
 			l.Habitat[i][j] = m.Habitat[i][j]
 		}
@@ -58,14 +59,19 @@ func (m MonsterInfo) Copy(l *MonsterInfo) {
 	l.Item = m.Item
 }
 
-type MonsterList []*MonsterInfo
+func (m MonsterInfo) String() string {
+	return m.Difficulty.String() + m.Name
+}
 
-func (l MonsterList) Len() int	{ return len(l) }
+type MonsterList []*MonsterInfo
+type MonsterMap map[string]*MonsterInfo
+
+func (l MonsterList) Len() int           { return len(l) }
 func (l MonsterList) Less(i, j int) bool { return l[i].Code < l[j].Code }
-func (l MonsterList) Swap(i, j int) { l[i], l[j] = l[j], l[i] }
+func (l MonsterList) Swap(i, j int)      { l[i], l[j] = l[j], l[i] }
 
 var renderer *render.Render
-var monsters map[string]*MonsterInfo
+var monsters MonsterMap
 
 func init() {
 	renderer = render.New(render.Options{
@@ -93,21 +99,33 @@ func init() {
 					return monsters[name].Habitat[field]
 				},
 			},
+			{
+				"GetTemperedMonster": func(name string) MonsterInfo {
+					if m := monsters["역전 " + name]; m != nil {
+						return *m
+					} else if m := monsters["상처입은 " + name]; m != nil {
+						return *m
+					} else {
+						return MonsterInfo{}
+					}
+				},
+			},
 		},
 	})
 	monsters = make(map[string]*MonsterInfo)
 }
 
-func mainpage(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+func cannotSee(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 	renderer.HTML(w, http.StatusOK, "monster_lists", map[string]interface{}{
 		"flv": 1,
 		"wlv": 1,
 		"clv": 1,
 		"rlv": 1,
+		"llv": 1,
 	})
 }
 
-func whatYouCannotSeeHere(result *[4]MonsterList, lvs []int) {
+func whatYouCannotSeeHere(result *[FIELD_MAX]MonsterList, lvs []int) {
 	for _, monsterInfo := range monsters {
 		for field, current_lv := range lvs {
 			if findleft(monsterInfo.Habitat[field], current_lv-2) && !findright(monsterInfo.Habitat[field], current_lv-1) {
@@ -117,11 +135,11 @@ func whatYouCannotSeeHere(result *[4]MonsterList, lvs []int) {
 	}
 }
 
-func whatYouCannotSee(result *MonsterList, mlist *[4]MonsterList, lvs []int) {
-	for field := Forest; field <= Rotten; field++ {
+func whatYouCannotSee(result *MonsterList, mlist *[FIELD_MAX]MonsterList, lvs []int) {
+	for field := Forest; field < FIELD_MAX; field++ {
 		for _, monsterInfo := range mlist[field] {
 			appearsInOtherField := false
-			for otherField := Forest; otherField <= Rotten; otherField++ {
+			for otherField := Forest; otherField < FIELD_MAX; otherField++ {
 				if otherField == field {
 					continue
 				}
@@ -143,12 +161,13 @@ func calculateLists(w http.ResponseWriter, req *http.Request, ps httprouter.Para
 	wLv, _ := strconv.Atoi(req.FormValue("wild_lev")[0:])
 	cLv, _ := strconv.Atoi(req.FormValue("coral_lev")[0:])
 	rLv, _ := strconv.Atoi(req.FormValue("rotten_lev")[0:])
+	lLv, _ := strconv.Atoi(req.FormValue("lava_lev")[0:])
 
-	currentLvs := []int{fLv, wLv, cLv, rLv}
-	var cannotSeeLists [4]MonsterList
+	currentLvs := []int{fLv, wLv, cLv, rLv, lLv}
+	var cannotSeeLists [FIELD_MAX]MonsterList
 	var totalLists MonsterList
-	var cannotSeeIfFields [4]MonsterList
-	var cannotSeeIfs [4]MonsterList
+	var cannotSeeIfFields [FIELD_MAX]MonsterList
+	var cannotSeeIfs [FIELD_MAX]MonsterList
 
 	whatYouCannotSeeHere(&cannotSeeLists, currentLvs)
 	whatYouCannotSee(&totalLists, &cannotSeeLists, currentLvs)
@@ -157,15 +176,15 @@ func calculateLists(w http.ResponseWriter, req *http.Request, ps httprouter.Para
 		sort.Sort(l)
 	}
 
-	futureLvs := make([]int, 4)
-	for field := Forest; field <= Rotten; field++ {
+	futureLvs := make([]int, FIELD_MAX)
+	for field := Forest; field < FIELD_MAX; field++ {
 		if currentLvs[field] >= 7 {
 			continue
 		}
 		copy(futureLvs, currentLvs)
 		futureLvs[field]++
 
-		for i := 0; i < 4; i++ {
+		for i := Forest; i < FIELD_MAX; i++ {
 			cannotSeeIfFields[i] = cannotSeeIfFields[i][:0]
 		}
 		whatYouCannotSeeHere(&cannotSeeIfFields, futureLvs)
@@ -182,32 +201,37 @@ func calculateLists(w http.ResponseWriter, req *http.Request, ps httprouter.Para
 			"wlv":                 wLv,
 			"clv":                 cLv,
 			"rlv":                 rLv,
+			"llv":                 lLv,
 			"NotAppearList":       totalLists,
 			"ForestNotAppearList": cannotSeeLists[Forest],
 			"WildNotAppearList":   cannotSeeLists[Wildspire],
 			"CoralNotAppearList":  cannotSeeLists[Coral],
 			"RottenNotAppearList": cannotSeeLists[Rotten],
+			"LavaNotAppearList":   cannotSeeLists[Lava],
 			"NotIfForestUp":       cannotSeeIfs[Forest],
 			"NotIfWildUp":         cannotSeeIfs[Wildspire],
 			"NotIfCoralUp":        cannotSeeIfs[Coral],
 			"NotIfRottenUp":       cannotSeeIfs[Rotten],
+			"NotIfLavaUp":         cannotSeeIfs[Lava],
 		})
 }
 
 func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
-	var appearList [4]MonsterList
+	var appearList [FIELD_MAX]MonsterList
 
 	for _, info := range monsters {
-		if info.Difficulty == Tempered {
-			if info.Name == "상처입은 얀가루루가" {
-				// TODO
-			}
-		} else {
+		if info.Difficulty == Normal {
 			m := MonsterInfo{}
 			info.Copy(&m)
 
-			if tempered := monsters["역전 " + info.Name]; tempered != nil {
-				for i := Forest; i <= Rotten; i++ {
+			tempered := monsters["역전 "+m.Name]
+
+			if m.Name == "얀가루루가" {
+				tempered = monsters["상처입은 "+m.Name]
+			}
+
+			if tempered != nil {
+				for i := Forest; i < FIELD_MAX; i++ {
 					for j := 0; j < 7; j++ {
 						if tempered.Habitat[i][j] != 0 {
 							m.Habitat[i][j] = tempered.Habitat[i][j] + 3
@@ -216,38 +240,49 @@ func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.
 				}
 			}
 
-			for i := Forest; i <= Rotten; i++ {
+			for i := Forest; i < FIELD_MAX; i++ {
 				for j := 0; j < 7; j++ {
 					if m.Habitat[i][j] > 0 {
 						appearList[i] = append(appearList[i], &m)
+						break
 					}
 				}
 			}
 		}
 	}
+
+	for i := Forest; i < FIELD_MAX; i++ {
+		sort.Sort(appearList[i])
+	}
 	renderer.HTML(w, http.StatusOK, "habitat_list",
 		map[string]interface{}{
 			"ForestList": appearList[Forest],
-			"WildList": appearList[Wildspire],
-			"CoralList": appearList[Coral],
+			"WildList":   appearList[Wildspire],
+			"CoralList":  appearList[Coral],
 			"RottenList": appearList[Rotten],
+			"LavaList": appearList[Lava],
+		})
+}
+
+func itemlist (w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	renderer.HTML(w, http.StatusOK, "item_list",
+		map[string]interface{}{
+			"ItemList": monsters,
 		})
 }
 
 func main() {
 	getData()
 
-	/*	for k, m := range monsters {
-		fmt.Println(k, m.Info[Normal], m.Info[Tempered])
-	}*/
-
 	router := httprouter.New()
 
-	router.GET("/", mainpage)
-	router.POST("/", calculateLists)
+	router.GET("/", itemlist)
+	router.GET("/itemlist", itemlist)
 	router.GET("/appearlist", displayAppearLists)
+	router.GET("/youcannotsee", cannotSee)
+	router.POST("/youcannotsee", calculateLists)
 
 	n := negroni.Classic()
 	n.UseHandler(router)
-	n.Run(":8080")
+	n.Run("")
 }

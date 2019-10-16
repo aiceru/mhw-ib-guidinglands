@@ -92,8 +92,8 @@ func getData() error {
 
 	// Prints the names and majors of students in a sample spreadsheet:
 	// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-	spreadsheetId := "1YTO5fcXNmfpU7XptQRuxmZIkvWq5bly-L8j3qq22oy8"
-	readRange := "인도하는 땅 몬스터 소재!B12:G53"
+	spreadsheetId := "1w80MacGIadcJ4b5LtgLPdBHH-gTymScTVXz7-e4qEJQ"
+	readRange := "인도하는 땅 몬스터 소재!B12:G60"
 	mlist, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
@@ -110,7 +110,7 @@ func getData() error {
 	}
 	makeHabitatList(Forest, forest)
 
-	readRange = "출현 몬스터 Ver.가로!B43:I62"
+	readRange = "출현 몬스터 Ver.가로!B43:I63"
 	wildspire, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
@@ -118,7 +118,7 @@ func getData() error {
 	}
 	makeHabitatList(Wildspire, wildspire)
 
-	readRange = "출현 몬스터 Ver.가로!B67:I83"
+	readRange = "출현 몬스터 Ver.가로!B68:I85"
 	coral, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
@@ -126,13 +126,21 @@ func getData() error {
 	}
 	makeHabitatList(Coral, coral)
 
-	readRange = "출현 몬스터 Ver.가로!B88:I100"
+	readRange = "출현 몬스터 Ver.가로!B90:I103"
 	rotten, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
 	if err != nil {
 		log.Fatalf("Unable to retrieve data from sheet: %v", err)
 		return err
 	}
 	makeHabitatList(Rotten, rotten)
+
+	readRange = "출현 몬스터 Ver.가로!B108:I127"
+	lava, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
+	if err != nil {
+		log.Fatalf("Unable to retrieve data from sheet: %v", err)
+		return err
+	}
+	makeHabitatList(Lava, lava)
 
 	return nil
 }
@@ -143,26 +151,31 @@ func makeMonsterList(v *sheets.ValueRange) {
 		return
 	}
 	for i, row := range v.Values {
-		name := row[0].(string)
-		if row[2].(string) != "X" {
-			m := &MonsterInfo{
-				Code:       i * 2,
-				Name:       name,
-				Difficulty: Normal,
-				Item:       row[2].(string),
-				Habitat:    [4][7]int{},
+		if len(row) > 0 {
+			name := row[0].(string)
+			if row[2].(string) != "X" {
+				m := &MonsterInfo{
+					Code:       i * 2,
+					Name:       name,
+					Difficulty: Normal,
+					Item:       row[2].(string),
+					Habitat:    [FIELD_MAX][7]int{},
+				}
+				monsters[m.Difficulty.String()+name] = m
 			}
-			monsters[m.Difficulty.String()+name] = m
-		}
-		if row[4].(string) != "X" {
-			m := &MonsterInfo{
-				Code:       (i * 2) + 1,
-				Name:       name,
-				Difficulty: Tempered,
-				Item:       row[4].(string),
-				Habitat:    [4][7]int{},
+			if row[4].(string) != "X" {
+				m := &MonsterInfo{
+					Code:       (i * 2) + 1,
+					Name:       name,
+					Difficulty: Tempered,
+					Item:       row[4].(string),
+					Habitat:    [FIELD_MAX][7]int{},
+				}
+				if name == "얀가루루가" {
+					m.Difficulty = Wounded
+				}
+				monsters[m.Difficulty.String()+name] = m
 			}
-			monsters[m.Difficulty.String()+name] = m
 		}
 	}
 }
@@ -172,17 +185,21 @@ func makeHabitatList(field int, v *sheets.ValueRange) {
 
 	for _, row := range v.Values {
 		for i, star := range row[1:] {
+			name := row[0].(string)
 			starString := star.(string)
 			nFreq := strings.Count(starString, "★")
 			if nFreq > 0 {
 				diff = Normal
-				monsterInfo := monsters[diff.String()+row[0].(string)]
+				monsterInfo := monsters[diff.String()+name]
 				monsterInfo.Habitat[field][i] = nFreq
 			} else {
 				tFreq := strings.Count(starString, "☆")
 				if tFreq > 0 {
 					diff = Tempered
-					monsterInfo := monsters[diff.String()+row[0].(string)]
+					if name == "얀가루루가" {
+						diff = Wounded
+					}
+					monsterInfo := monsters[diff.String()+name]
 					monsterInfo.Habitat[field][i] = tFreq
 				}
 			}

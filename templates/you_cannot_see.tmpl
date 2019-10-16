@@ -15,7 +15,7 @@
                 </td>
                 <td>
                     {{range $i, $monster := .NotAppearList}}
-                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                         [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                     {{end}}
                 </td>
@@ -26,7 +26,7 @@
                 </td>
                 <td>
                     {{range $i, $monster := .ForestNotAppearList}}
-                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                         [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                     {{end}}
                 </td>
@@ -37,7 +37,7 @@
                 </td>
                 <td>
                     {{range $i, $monster := .WildNotAppearList}}
-                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                         [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                     {{end}}
                 </td>
@@ -48,7 +48,7 @@
                 </td>
                 <td>
                     {{range $i, $monster := .CoralNotAppearList}}
-                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                         [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                     {{end}}
                 </td>
@@ -59,7 +59,18 @@
                 </td>
                 <td>
                     {{range $i, $monster := .RottenNotAppearList}}
-                        {{if eq $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
+                        [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
+                    {{end}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    용암
+                </td>
+                <td>
+                    {{range $i, $monster := .LavaNotAppearList}}
+                        {{if ge $monster.Difficulty 1}}<span style="color: #9370db;"/>{{else}}<span>{{end}}
                         [ {{$monster}} ]{{if Newline $i}}<br>{{end}}</span>
                     {{end}}
                 </td>
