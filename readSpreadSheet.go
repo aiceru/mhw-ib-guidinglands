@@ -70,7 +70,7 @@ func saveToken(path string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
-func getData() error {
+func getDataFromGoogleSheet() error {
 	b, err := ioutil.ReadFile("data/credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -159,7 +159,7 @@ func makeMonsterList(v *sheets.ValueRange) {
 					Name:       name,
 					Difficulty: Normal,
 					Item:       row[2].(string),
-					Habitat:    [FIELD_MAX][7]int{},
+					Habitat:    [FieldMax][7]int{},
 				}
 				monsters[m.Difficulty.String()+name] = m
 			}
@@ -169,7 +169,7 @@ func makeMonsterList(v *sheets.ValueRange) {
 					Name:       name,
 					Difficulty: Tempered,
 					Item:       row[4].(string),
-					Habitat:    [FIELD_MAX][7]int{},
+					Habitat:    [FieldMax][7]int{},
 				}
 				if name == "얀가루루가" {
 					m.Difficulty = Wounded

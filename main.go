@@ -1,11 +1,15 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/codegangsta/negroni"
 	"github.com/julienschmidt/httprouter"
 	"github.com/unrolled/render"
 	"html/template"
+	"io/ioutil"
 	"net/http"
+	"os"
 	"sort"
 	"strconv"
 )
@@ -16,7 +20,7 @@ const ( // Fields
 	Coral
 	Rotten
 	Lava
-	FIELD_MAX
+	FieldMax
 )
 
 type difficulty int
@@ -44,11 +48,11 @@ type MonsterInfo struct {
 	Name       string
 	Difficulty difficulty
 	Item       string
-	Habitat    [FIELD_MAX][7]int
+	Habitat    [FieldMax][7]int
 }
 
 func (m MonsterInfo) Copy(l *MonsterInfo) {
-	for i := Forest; i < FIELD_MAX; i++ {
+	for i := Forest; i < FieldMax; i++ {
 		for j := 0; j < 7; j++ {
 			l.Habitat[i][j] = m.Habitat[i][j]
 		}
@@ -101,9 +105,9 @@ func init() {
 			},
 			{
 				"GetTemperedMonster": func(name string) MonsterInfo {
-					if m := monsters["역전 " + name]; m != nil {
+					if m := monsters["역전 "+name]; m != nil {
 						return *m
-					} else if m := monsters["상처입은 " + name]; m != nil {
+					} else if m := monsters["상처입은 "+name]; m != nil {
 						return *m
 					} else {
 						return MonsterInfo{}
@@ -125,21 +129,21 @@ func cannotSee(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 	})
 }
 
-func whatYouCannotSeeHere(result *[FIELD_MAX]MonsterList, lvs []int) {
+func whatYouCannotSeeHere(result *[FieldMax]MonsterList, lvs []int) {
 	for _, monsterInfo := range monsters {
-		for field, current_lv := range lvs {
-			if findleft(monsterInfo.Habitat[field], current_lv-2) && !findright(monsterInfo.Habitat[field], current_lv-1) {
+		for field, currentLv := range lvs {
+			if findleft(monsterInfo.Habitat[field], currentLv-2) && !findright(monsterInfo.Habitat[field], currentLv-1) {
 				result[field] = append(result[field], monsterInfo)
 			}
 		}
 	}
 }
 
-func whatYouCannotSee(result *MonsterList, mlist *[FIELD_MAX]MonsterList, lvs []int) {
-	for field := Forest; field < FIELD_MAX; field++ {
+func whatYouCannotSee(result *MonsterList, mlist *[FieldMax]MonsterList, lvs []int) {
+	for field := Forest; field < FieldMax; field++ {
 		for _, monsterInfo := range mlist[field] {
 			appearsInOtherField := false
-			for otherField := Forest; otherField < FIELD_MAX; otherField++ {
+			for otherField := Forest; otherField < FieldMax; otherField++ {
 				if otherField == field {
 					continue
 				}
@@ -164,10 +168,10 @@ func calculateLists(w http.ResponseWriter, req *http.Request, ps httprouter.Para
 	lLv, _ := strconv.Atoi(req.FormValue("lava_lev")[0:])
 
 	currentLvs := []int{fLv, wLv, cLv, rLv, lLv}
-	var cannotSeeLists [FIELD_MAX]MonsterList
+	var cannotSeeLists [FieldMax]MonsterList
 	var totalLists MonsterList
-	var cannotSeeIfFields [FIELD_MAX]MonsterList
-	var cannotSeeIfs [FIELD_MAX]MonsterList
+	var cannotSeeIfFields [FieldMax]MonsterList
+	var cannotSeeIfs [FieldMax]MonsterList
 
 	whatYouCannotSeeHere(&cannotSeeLists, currentLvs)
 	whatYouCannotSee(&totalLists, &cannotSeeLists, currentLvs)
@@ -176,15 +180,15 @@ func calculateLists(w http.ResponseWriter, req *http.Request, ps httprouter.Para
 		sort.Sort(l)
 	}
 
-	futureLvs := make([]int, FIELD_MAX)
-	for field := Forest; field < FIELD_MAX; field++ {
+	futureLvs := make([]int, FieldMax)
+	for field := Forest; field < FieldMax; field++ {
 		if currentLvs[field] >= 7 {
 			continue
 		}
 		copy(futureLvs, currentLvs)
 		futureLvs[field]++
 
-		for i := Forest; i < FIELD_MAX; i++ {
+		for i := Forest; i < FieldMax; i++ {
 			cannotSeeIfFields[i] = cannotSeeIfFields[i][:0]
 		}
 		whatYouCannotSeeHere(&cannotSeeIfFields, futureLvs)
@@ -217,7 +221,7 @@ func calculateLists(w http.ResponseWriter, req *http.Request, ps httprouter.Para
 }
 
 func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
-	var appearList [FIELD_MAX]MonsterList
+	var appearList [FieldMax]MonsterList
 
 	for _, info := range monsters {
 		if info.Difficulty == Normal {
@@ -231,7 +235,7 @@ func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.
 			}
 
 			if tempered != nil {
-				for i := Forest; i < FIELD_MAX; i++ {
+				for i := Forest; i < FieldMax; i++ {
 					for j := 0; j < 7; j++ {
 						if tempered.Habitat[i][j] != 0 {
 							m.Habitat[i][j] = tempered.Habitat[i][j] + 3
@@ -240,7 +244,7 @@ func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.
 				}
 			}
 
-			for i := Forest; i < FIELD_MAX; i++ {
+			for i := Forest; i < FieldMax; i++ {
 				for j := 0; j < 7; j++ {
 					if m.Habitat[i][j] > 0 {
 						appearList[i] = append(appearList[i], &m)
@@ -251,7 +255,7 @@ func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.
 		}
 	}
 
-	for i := Forest; i < FIELD_MAX; i++ {
+	for i := Forest; i < FieldMax; i++ {
 		sort.Sort(appearList[i])
 	}
 	renderer.HTML(w, http.StatusOK, "habitat_list",
@@ -260,22 +264,51 @@ func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.
 			"WildList":   appearList[Wildspire],
 			"CoralList":  appearList[Coral],
 			"RottenList": appearList[Rotten],
-			"LavaList": appearList[Lava],
+			"LavaList":   appearList[Lava],
 		})
 }
 
-func itemlist (w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+func itemlist(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 	renderer.HTML(w, http.StatusOK, "item_list",
 		map[string]interface{}{
 			"ItemList": monsters,
 		})
 }
 
+func updateData(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	getDataFromGoogleSheet()
+	saveDataToJson()
+	http.Redirect(w, req, "/", http.StatusFound)
+}
+
+func saveDataToJson() {
+	file, _ := json.MarshalIndent(monsters, "", " ")
+	_ = ioutil.WriteFile("data/monsters.json", file, 0644)
+}
+
+func getDataFromJson() error {
+	jsonFile, err := os.Open("data/monsters.json")
+	if err != nil {
+		return err
+	}
+	defer jsonFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	json.Unmarshal(byteValue, &monsters)
+	return nil
+}
+
 func main() {
-	getData()
+	err := getDataFromJson()
+	if err != nil {
+		getDataFromGoogleSheet()
+		saveDataToJson()
+		fmt.Println("Reading from google sheet...")
+	}
 
 	router := httprouter.New()
 
+	router.GET("/update", updateData)
 	router.GET("/", itemlist)
 	router.GET("/itemlist", itemlist)
 	router.GET("/appearlist", displayAppearLists)
@@ -284,5 +317,5 @@ func main() {
 
 	n := negroni.Classic()
 	n.UseHandler(router)
-	n.Run("")
+	n.Run(":8080")
 }

@@ -26,4 +26,3 @@ func contains(list []*MonsterInfo, m *MonsterInfo) bool {
 	}
 	return false
 }
-
