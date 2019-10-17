@@ -46,6 +46,7 @@ const (
 type MonsterInfo struct {
 	Code       int
 	Name       string
+	Ename string
 	Difficulty difficulty
 	Item       string
 	Habitat    [FieldMax][7]int
@@ -298,6 +299,36 @@ func getDataFromJson() error {
 	return nil
 }
 
+func displayInfo(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	target := monsters[ps.ByName("name")]
+	m := MonsterInfo{}
+
+	if target != nil {
+		target.Copy(&m)
+
+		tempered := monsters["역전 "+m.Name]
+
+		if m.Name == "얀가루루가" {
+			tempered = monsters["상처입은 "+m.Name]
+		}
+
+		if tempered != nil {
+			for i := Forest; i < FieldMax; i++ {
+				for j := 0; j < 7; j++ {
+					if tempered.Habitat[i][j] != 0 {
+						m.Habitat[i][j] = tempered.Habitat[i][j] + 3
+					}
+				}
+			}
+		}
+	}
+
+	renderer.HTML(w, http.StatusOK, "monster_info",
+		map[string]interface{}{
+			"Info": m,
+		})
+}
+
 func main() {
 	err := getDataFromJson()
 	if err != nil {
@@ -314,6 +345,8 @@ func main() {
 	router.GET("/appearlist", displayAppearLists)
 	router.GET("/youcannotsee", cannotSee)
 	router.POST("/youcannotsee", calculateLists)
+	router.GET("/monster_info/:name", displayInfo)
+	router.ServeFiles("/data/*filepath", http.Dir("./data"))
 
 	n := negroni.Classic()
 	n.UseHandler(router)

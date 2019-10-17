@@ -157,6 +157,7 @@ func makeMonsterList(v *sheets.ValueRange) {
 				m := &MonsterInfo{
 					Code:       i * 2,
 					Name:       name,
+					Ename: row[1].(string),
 					Difficulty: Normal,
 					Item:       row[2].(string),
 					Habitat:    [FieldMax][7]int{},
@@ -167,6 +168,7 @@ func makeMonsterList(v *sheets.ValueRange) {
 				m := &MonsterInfo{
 					Code:       (i * 2) + 1,
 					Name:       name,
+					Ename: row[1].(string),
 					Difficulty: Tempered,
 					Item:       row[4].(string),
 					Habitat:    [FieldMax][7]int{},

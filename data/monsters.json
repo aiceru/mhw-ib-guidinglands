@@ -2,6 +2,7 @@
  "나나-테스카토리": {
   "Code": 76,
   "Name": "나나-테스카토리",
+  "Ename": "Lunastra",
   "Difficulty": 0,
   "Item": "창염의 갈기",
   "Habitat": [
@@ -55,6 +56,7 @@
  "나르가쿠르가": {
   "Code": 32,
   "Name": "나르가쿠르가",
+  "Ename": "Nargacuga",
   "Difficulty": 0,
   "Item": "암살자의 칼날개",
   "Habitat": [
@@ -108,6 +110,7 @@
  "네로미에르": {
   "Code": 78,
   "Name": "네로미에르",
+  "Ename": "Namielle",
   "Difficulty": 0,
   "Item": "환혹하는 특상 가죽",
   "Habitat": [
@@ -161,6 +164,7 @@
  "도도가마루": {
   "Code": 0,
   "Name": "도도가마루",
+  "Ename": "Dodogama",
   "Difficulty": 0,
   "Item": "중량급 큰턱",
   "Habitat": [
@@ -214,6 +218,7 @@
  "도스기르오스": {
   "Code": 2,
   "Name": "도스기르오스",
+  "Ename": "Great Girros",
   "Difficulty": 0,
   "Item": "암야의 두건각",
   "Habitat": [
@@ -267,6 +272,7 @@
  "도스쟈그라스": {
   "Code": 4,
   "Name": "도스쟈그라스",
+  "Ename": "Great Jagras",
   "Difficulty": 0,
   "Item": "씩씩한 갈기",
   "Habitat": [
@@ -320,6 +326,7 @@
  "디노발드": {
   "Code": 34,
   "Name": "디노발드",
+  "Ename": "Glavenus",
   "Difficulty": 0,
   "Item": "작염의 칼날꼬리",
   "Habitat": [
@@ -373,6 +380,7 @@
  "디노발드 아종": {
   "Code": 36,
   "Name": "디노발드 아종",
+  "Ename": "Acidic Glavenus",
   "Difficulty": 0,
   "Item": "날카롭게 갈린 참철꼬리",
   "Habitat": [
@@ -426,6 +434,7 @@
  "디아블로스": {
   "Code": 38,
   "Name": "디아블로스",
+  "Ename": "Diablos",
   "Difficulty": 0,
   "Item": "용감한 비틀린뿔",
   "Habitat": [
@@ -479,6 +488,7 @@
  "디아블로스 아종": {
   "Code": 40,
   "Name": "디아블로스 아종",
+  "Ename": "Black Diablos",
   "Difficulty": 0,
   "Item": "폭군의 검은회오리뿔",
   "Habitat": [
@@ -532,6 +542,7 @@
  "라도발킨": {
   "Code": 6,
   "Name": "라도발킨",
+  "Ename": "Radobaan",
   "Difficulty": 0,
   "Item": "먹빛의 중유각",
   "Habitat": [
@@ -585,6 +596,7 @@
  "라잔": {
   "Code": 80,
   "Name": "라잔",
+  "Ename": "Rajang",
   "Difficulty": 0,
   "Item": "투기 넘치는 황모",
   "Habitat": [
@@ -638,6 +650,7 @@
  "레이기에나": {
   "Code": 42,
   "Name": "레이기에나",
+  "Ename": "Legiana",
   "Difficulty": 0,
   "Item": "매끈한 얼음 가죽",
   "Habitat": [
@@ -691,6 +704,7 @@
  "리오레우스": {
   "Code": 44,
   "Name": "리오레우스",
+  "Ename": "Rathalos",
   "Difficulty": 0,
   "Item": "왕의 용린",
   "Habitat": [
@@ -744,6 +758,7 @@
  "리오레우스 아종": {
   "Code": 46,
   "Name": "리오레우스 아종",
+  "Ename": "Azure Rathalos",
   "Difficulty": 0,
   "Item": "창공의 용린",
   "Habitat": [
@@ -797,6 +812,7 @@
  "리오레우스 희소종": {
   "Code": 48,
   "Name": "리오레우스 희소종",
+  "Ename": "Silver Rathalos",
   "Difficulty": 0,
   "Item": "뙤약볕의 용린",
   "Habitat": [
@@ -850,6 +866,7 @@
  "리오레이아": {
   "Code": 8,
   "Name": "리오레이아",
+  "Ename": "Rathian",
   "Difficulty": 0,
   "Item": "여왕의 용린",
   "Habitat": [
@@ -903,6 +920,7 @@
  "리오레이아 아종": {
   "Code": 50,
   "Name": "리오레이아 아종",
+  "Ename": "Pink Rathian",
   "Difficulty": 0,
   "Item": "앵화의 용린",
   "Habitat": [
@@ -956,6 +974,7 @@
  "리오레이아 희소종": {
   "Code": 52,
   "Name": "리오레이아 희소종",
+  "Ename": "Gold Rathian",
   "Difficulty": 0,
   "Item": "월광의 용린",
   "Habitat": [
@@ -1009,6 +1028,7 @@
  "모두를 멸하는 네르기간테": {
   "Code": 82,
   "Name": "모두를 멸하는 네르기간테",
+  "Ename": "Ruiner Nergigante",
   "Difficulty": 0,
   "Item": "생자필멸의 억센큰뿔",
   "Habitat": [
@@ -1062,6 +1082,7 @@
  "미친 이블조": {
   "Code": 84,
   "Name": "미친 이블조",
+  "Ename": "Savage Deviljho",
   "Difficulty": 0,
   "Item": "피에 물든 칠흑피",
   "Habitat": [
@@ -1115,6 +1136,7 @@
  "버프바로": {
   "Code": 10,
   "Name": "버프바로",
+  "Ename": "Banbaro",
   "Difficulty": 0,
   "Item": "오래된 강자의 거대한뿔",
   "Habitat": [
@@ -1168,6 +1190,7 @@
  "볼가노스": {
   "Code": 54,
   "Name": "볼가노스",
+  "Ename": "Lavasioth",
   "Difficulty": 0,
   "Item": "작열의 용암 지느러미",
   "Habitat": [
@@ -1221,6 +1244,7 @@
  "볼보로스": {
   "Code": 12,
   "Name": "볼보로스",
+  "Ename": "Barroth",
   "Difficulty": 0,
   "Item": "진흙의 왕관각",
   "Habitat": [
@@ -1274,6 +1298,7 @@
  "브라키디오스": {
   "Code": 56,
   "Name": "브라키디오스",
+  "Ename": "Brachydios",
   "Difficulty": 0,
   "Item": "반들반들한 흑요갑",
   "Habitat": [
@@ -1327,6 +1352,7 @@
  "상처입은 얀가루루가": {
   "Code": 61,
   "Name": "얀가루루가",
+  "Ename": "Yian Garuga",
   "Difficulty": 2,
   "Item": "역전의 은랑모",
   "Habitat": [
@@ -1380,6 +1406,7 @@
  "안쟈나프": {
   "Code": 14,
   "Name": "안쟈나프",
+  "Ename": "Anjanath",
   "Difficulty": 0,
   "Item": "일렁이는 불꽃 모피",
   "Habitat": [
@@ -1433,6 +1460,7 @@
  "안쟈나프 아종": {
   "Code": 58,
   "Name": "안쟈나프 아종",
+  "Ename": "Fulgur Anjanath",
   "Difficulty": 0,
   "Item": "술렁이는 천둥 모피",
   "Habitat": [
@@ -1486,6 +1514,7 @@
  "얀가루루가": {
   "Code": 60,
   "Name": "얀가루루가",
+  "Ename": "Yian Garuga",
   "Difficulty": 0,
   "Item": "불길한 은랑모",
   "Habitat": [
@@ -1539,6 +1568,7 @@
  "역전 나나-테스카토리": {
   "Code": 77,
   "Name": "나나-테스카토리",
+  "Ename": "Lunastra",
   "Difficulty": 1,
   "Item": "역전의 푸른 갈기",
   "Habitat": [
@@ -1592,6 +1622,7 @@
  "역전 나르가쿠르가": {
   "Code": 33,
   "Name": "나르가쿠르가",
+  "Ename": "Nargacuga",
   "Difficulty": 1,
   "Item": "역전의 칼날개",
   "Habitat": [
@@ -1645,6 +1676,7 @@
  "역전 네로미에르": {
   "Code": 79,
   "Name": "네로미에르",
+  "Ename": "Namielle",
   "Difficulty": 1,
   "Item": "역전의 환혹 가죽",
   "Habitat": [
@@ -1698,6 +1730,7 @@
  "역전 디노발드": {
   "Code": 35,
   "Name": "디노발드",
+  "Ename": "Glavenus",
   "Difficulty": 1,
   "Item": "역전의 칼날꼬리",
   "Habitat": [
@@ -1751,6 +1784,7 @@
  "역전 디노발드 아종": {
   "Code": 37,
   "Name": "디노발드 아종",
+  "Ename": "Acidic Glavenus",
   "Difficulty": 1,
   "Item": "역전의 참철꼬리",
   "Habitat": [
@@ -1804,6 +1838,7 @@
  "역전 디아블로스": {
   "Code": 39,
   "Name": "디아블로스",
+  "Ename": "Diablos",
   "Difficulty": 1,
   "Item": "역전의 비틀린뿔",
   "Habitat": [
@@ -1857,6 +1892,7 @@
  "역전 디아블로스 아종": {
   "Code": 41,
   "Name": "디아블로스 아종",
+  "Ename": "Black Diablos",
   "Difficulty": 1,
   "Item": "역전의 검은회오리뿔",
   "Habitat": [
@@ -1910,6 +1946,7 @@
  "역전 라도발킨": {
   "Code": 7,
   "Name": "라도발킨",
+  "Ename": "Radobaan",
   "Difficulty": 1,
   "Item": "역전의 중유각",
   "Habitat": [
@@ -1963,6 +2000,7 @@
  "역전 라잔": {
   "Code": 81,
   "Name": "라잔",
+  "Ename": "Rajang",
   "Difficulty": 1,
   "Item": "역전의 황모",
   "Habitat": [
@@ -2016,6 +2054,7 @@
  "역전 레이기에나": {
   "Code": 43,
   "Name": "레이기에나",
+  "Ename": "Legiana",
   "Difficulty": 1,
   "Item": "역전의 얼음 가죽",
   "Habitat": [
@@ -2069,6 +2108,7 @@
  "역전 리오레우스": {
   "Code": 45,
   "Name": "리오레우스",
+  "Ename": "Rathalos",
   "Difficulty": 1,
   "Item": "역전의 용린 [적]",
   "Habitat": [
@@ -2122,6 +2162,7 @@
  "역전 리오레우스 아종": {
   "Code": 47,
   "Name": "리오레우스 아종",
+  "Ename": "Azure Rathalos",
   "Difficulty": 1,
   "Item": "역전의 용린 [창]",
   "Habitat": [
@@ -2175,6 +2216,7 @@
  "역전 리오레우스 희소종": {
   "Code": 49,
   "Name": "리오레우스 희소종",
+  "Ename": "Silver Rathalos",
   "Difficulty": 1,
   "Item": "역전의 용린 [은]",
   "Habitat": [
@@ -2228,6 +2270,7 @@
  "역전 리오레이아": {
   "Code": 9,
   "Name": "리오레이아",
+  "Ename": "Rathian",
   "Difficulty": 1,
   "Item": "역전의 용린 [녹]",
   "Habitat": [
@@ -2281,6 +2324,7 @@
  "역전 리오레이아 아종": {
   "Code": 51,
   "Name": "리오레이아 아종",
+  "Ename": "Pink Rathian",
   "Difficulty": 1,
   "Item": "역전의 용린 [앵]",
   "Habitat": [
@@ -2334,6 +2378,7 @@
  "역전 리오레이아 희소종": {
   "Code": 53,
   "Name": "리오레이아 희소종",
+  "Ename": "Gold Rathian",
   "Difficulty": 1,
   "Item": "역전의 용린 [금]",
   "Habitat": [
@@ -2387,6 +2432,7 @@
  "역전 미친 이블조": {
   "Code": 85,
   "Name": "미친 이블조",
+  "Ename": "Savage Deviljho",
   "Difficulty": 1,
   "Item": "역전의 칠흑피",
   "Habitat": [
@@ -2440,6 +2486,7 @@
  "역전 버프바로": {
   "Code": 11,
   "Name": "버프바로",
+  "Ename": "Banbaro",
   "Difficulty": 1,
   "Item": "역전의 거대한 뿔",
   "Habitat": [
@@ -2493,6 +2540,7 @@
  "역전 볼가노스": {
   "Code": 55,
   "Name": "볼가노스",
+  "Ename": "Lavasioth",
   "Difficulty": 1,
   "Item": "역전의 용암 지느러미",
   "Habitat": [
@@ -2546,6 +2594,7 @@
  "역전 볼보로스": {
   "Code": 13,
   "Name": "볼보로스",
+  "Ename": "Barroth",
   "Difficulty": 1,
   "Item": "역전의 왕관각",
   "Habitat": [
@@ -2599,6 +2648,7 @@
  "역전 브라키디오스": {
   "Code": 57,
   "Name": "브라키디오스",
+  "Ename": "Brachydios",
   "Difficulty": 1,
   "Item": "역전의 흑요갑",
   "Habitat": [
@@ -2652,6 +2702,7 @@
  "역전 안쟈나프": {
   "Code": 15,
   "Name": "안쟈나프",
+  "Ename": "Anjanath",
   "Difficulty": 1,
   "Item": "역전의 불꽃 모피",
   "Habitat": [
@@ -2705,6 +2756,7 @@
  "역전 안쟈나프 아종": {
   "Code": 59,
   "Name": "안쟈나프 아종",
+  "Ename": "Fulgur Anjanath",
   "Difficulty": 1,
   "Item": "역전의 천둥 모피",
   "Habitat": [
@@ -2758,6 +2810,7 @@
  "역전 오도가론": {
   "Code": 63,
   "Name": "오도가론",
+  "Ename": "Odogaron",
   "Difficulty": 1,
   "Item": "역전의 참조",
   "Habitat": [
@@ -2811,6 +2864,7 @@
  "역전 오도가론 아종": {
   "Code": 65,
   "Name": "오도가론 아종",
+  "Ename": "Ebony Odogaron",
   "Difficulty": 1,
   "Item": "역전의 흉조",
   "Habitat": [
@@ -2864,6 +2918,7 @@
  "역전 우라간킨": {
   "Code": 67,
   "Name": "우라간킨",
+  "Ename": "Uragaan",
   "Difficulty": 1,
   "Item": "역전의 내열갑각",
   "Habitat": [
@@ -2917,6 +2972,7 @@
  "역전 이베르카나": {
   "Code": 87,
   "Name": "이베르카나",
+  "Ename": "Velkhana",
   "Difficulty": 1,
   "Item": "역전의 관각",
   "Habitat": [
@@ -2970,6 +3026,7 @@
  "역전 죽음을 두른 발하자크": {
   "Code": 89,
   "Name": "죽음을 두른 발하자크",
+  "Ename": "Blackveil Vaal Hazak",
   "Difficulty": 1,
   "Item": "역전의 어두운 송곳니",
   "Habitat": [
@@ -3023,6 +3080,7 @@
  "역전 진오우거": {
   "Code": 69,
   "Name": "진오우거",
+  "Ename": "Zinogre",
   "Difficulty": 1,
   "Item": "역전의 뇌전갑각",
   "Habitat": [
@@ -3076,6 +3134,7 @@
  "역전 크샬다오라": {
   "Code": 91,
   "Name": "크샬다오라",
+  "Ename": "Kushala Daora",
   "Difficulty": 1,
   "Item": "역전의 강익",
   "Habitat": [
@@ -3129,6 +3188,7 @@
  "역전 키린": {
   "Code": 93,
   "Name": "키린",
+  "Ename": "Kirin",
   "Difficulty": 1,
   "Item": "역전의 창각",
   "Habitat": [
@@ -3182,6 +3242,7 @@
  "역전 테오-테스카토르": {
   "Code": 95,
   "Name": "테오-테스카토르",
+  "Ename": "Teostra",
   "Difficulty": 1,
   "Item": "역전의 붉은 갈기",
   "Habitat": [
@@ -3235,6 +3296,7 @@
  "역전 토비카가치": {
   "Code": 21,
   "Name": "토비카가치",
+  "Ename": "Tobi-Kadachi",
   "Difficulty": 1,
   "Item": "역전의 뇌광침",
   "Habitat": [
@@ -3288,6 +3350,7 @@
  "역전 티가렉스": {
   "Code": 71,
   "Name": "티가렉스",
+  "Ename": "Tigrex",
   "Difficulty": 1,
   "Item": "역전의 아기토",
   "Habitat": [
@@ -3341,6 +3404,7 @@
  "역전 티가렉스 아종": {
   "Code": 73,
   "Name": "티가렉스 아종",
+  "Ename": "Brute Tigrex",
   "Difficulty": 1,
   "Item": "역전의 검은 아기토",
   "Habitat": [
@@ -3394,6 +3458,7 @@
  "역전 파오우르무": {
   "Code": 23,
   "Name": "파오우르무",
+  "Ename": "Paolumu",
   "Difficulty": 1,
   "Item": "역전의 고무질각",
   "Habitat": [
@@ -3447,6 +3512,7 @@
  "역전 파오우르무 아종": {
   "Code": 25,
   "Name": "파오우르무 아종",
+  "Ename": "Nightshade Paolumu",
   "Difficulty": 1,
   "Item": "역전의 흑모피",
   "Habitat": [
@@ -3500,6 +3566,7 @@
  "역전 푸케푸케": {
   "Code": 27,
   "Name": "푸케푸케",
+  "Ename": "Pukei-Pukei",
   "Difficulty": 1,
   "Item": "역전의 맹독 후대",
   "Habitat": [
@@ -3553,6 +3620,7 @@
  "역전 푸케푸케 아종": {
   "Code": 29,
   "Name": "푸케푸케 아종",
+  "Ename": "Coral Pukei-Pukei",
   "Difficulty": 1,
   "Item": "역전의 홍수 후대",
   "Habitat": [
@@ -3606,6 +3674,7 @@
  "역전 홍련의 솟구치는 바젤기우스": {
   "Code": 97,
   "Name": "홍련의 솟구치는 바젤기우스",
+  "Ename": "Seething Bazelgeuse",
   "Difficulty": 1,
   "Item": "역전의 폭린",
   "Habitat": [
@@ -3659,6 +3728,7 @@
  "오도가론": {
   "Code": 62,
   "Name": "오도가론",
+  "Ename": "Odogaron",
   "Difficulty": 0,
   "Item": "생명을 자르는 참조",
   "Habitat": [
@@ -3712,6 +3782,7 @@
  "오도가론 아종": {
   "Code": 64,
   "Name": "오도가론 아종",
+  "Ename": "Ebony Odogaron",
   "Difficulty": 0,
   "Item": "영혼을 찢는 흉조",
   "Habitat": [
@@ -3765,6 +3836,7 @@
  "우라간킨": {
   "Code": 66,
   "Name": "우라간킨",
+  "Ename": "Uragaan",
   "Difficulty": 0,
   "Item": "금속질의 내열갑각",
   "Habitat": [
@@ -3818,6 +3890,7 @@
  "이베르카나": {
   "Code": 86,
   "Name": "이베르카나",
+  "Ename": "Velkhana",
   "Difficulty": 0,
   "Item": "극광의 관각",
   "Habitat": [
@@ -3871,6 +3944,7 @@
  "죽음을 두른 발하자크": {
   "Code": 88,
   "Name": "죽음을 두른 발하자크",
+  "Ename": "Blackveil Vaal Hazak",
   "Difficulty": 0,
   "Item": "어스름보다 어두운 송곳니",
   "Habitat": [
@@ -3924,6 +3998,7 @@
  "진오우거": {
   "Code": 68,
   "Name": "진오우거",
+  "Ename": "Zinogre",
   "Difficulty": 0,
   "Item": "샘솟는 뇌전갑각",
   "Habitat": [
@@ -3977,6 +4052,7 @@
  "치치야크": {
   "Code": 16,
   "Name": "치치야크",
+  "Ename": "Tzitzi-Ya-Ku",
   "Difficulty": 0,
   "Item": "번쩍이는 섬광막",
   "Habitat": [
@@ -4030,6 +4106,7 @@
  "쿠루루야크": {
   "Code": 18,
   "Name": "쿠루루야크",
+  "Ename": "Kulu-Ya-Ku",
   "Difficulty": 0,
   "Item": "윤기 나는 장식 깃털",
   "Habitat": [
@@ -4083,6 +4160,7 @@
  "크샬다오라": {
   "Code": 90,
   "Name": "크샬다오라",
+  "Ename": "Kushala Daora",
   "Difficulty": 0,
   "Item": "폭풍을 부르는 강익",
   "Habitat": [
@@ -4136,6 +4214,7 @@
  "키린": {
   "Code": 92,
   "Name": "키린",
+  "Ename": "Kirin",
   "Difficulty": 0,
   "Item": "장엄한 창각",
   "Habitat": [
@@ -4189,6 +4268,7 @@
  "테오-테스카토르": {
   "Code": 94,
   "Name": "테오-테스카토르",
+  "Ename": "Teostra",
   "Difficulty": 0,
   "Item": "옥염의 갈기",
   "Habitat": [
@@ -4242,6 +4322,7 @@
  "토비카가치": {
   "Code": 20,
   "Name": "토비카가치",
+  "Ename": "Tobi-Kadachi",
   "Difficulty": 0,
   "Item": "눈부신 뇌광침",
   "Habitat": [
@@ -4295,6 +4376,7 @@
  "티가렉스": {
   "Code": 70,
   "Name": "티가렉스",
+  "Ename": "Tigrex",
   "Difficulty": 0,
   "Item": "강자의 아기토",
   "Habitat": [
@@ -4348,6 +4430,7 @@
  "티가렉스 아종": {
   "Code": 72,
   "Name": "티가렉스 아종",
+  "Ename": "Brute Tigrex",
   "Difficulty": 0,
   "Item": "전율의 검은 아기토",
   "Habitat": [
@@ -4401,6 +4484,7 @@
  "파오우르무": {
   "Code": 22,
   "Name": "파오우르무",
+  "Ename": "Paolumu",
   "Difficulty": 0,
   "Item": "초탄력 고무각",
   "Habitat": [
@@ -4454,6 +4538,7 @@
  "파오우르무 아종": {
   "Code": 24,
   "Name": "파오우르무 아종",
+  "Ename": "Nightshade Paolumu",
   "Difficulty": 0,
   "Item": "칠흑의 고급 모피",
   "Habitat": [
@@ -4507,6 +4592,7 @@
  "푸케푸케": {
   "Code": 26,
   "Name": "푸케푸케",
+  "Ename": "Pukei-Pukei",
   "Difficulty": 0,
   "Item": "달콤한 향기나는 독 후대",
   "Habitat": [
@@ -4560,6 +4646,7 @@
  "푸케푸케 아종": {
   "Code": 28,
   "Name": "푸케푸케 아종",
+  "Ename": "Coral Pukei-Pukei",
   "Difficulty": 0,
   "Item": "물기를 머금은 후대",
   "Habitat": [
@@ -4613,6 +4700,7 @@
  "홍련의 솟구치는 바젤기우스": {
   "Code": 96,
   "Name": "홍련의 솟구치는 바젤기우스",
+  "Ename": "Seething Bazelgeuse",
   "Difficulty": 0,
   "Item": "홍련의 폭린",
   "Habitat": [
