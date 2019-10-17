@@ -270,9 +270,18 @@ func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.
 }
 
 func itemlist(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	var list MonsterList
+	for _, monster := range monsters {
+		if monster.Difficulty == Normal {
+			list = append(list, monster)
+		}
+	}
+
+	sort.Sort(list)
+
 	renderer.HTML(w, http.StatusOK, "item_list",
 		map[string]interface{}{
-			"ItemList": monsters,
+			"ItemList": list,
 		})
 }
 

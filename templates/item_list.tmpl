@@ -13,30 +13,30 @@
         </tr>
         </thead>
         <tbody>
-        {{range $key, $monster := .ItemList}}
+        {{range $monster := .ItemList}}
             {{if eq $monster.Difficulty 0}}
-                {{$tempered := GetTemperedMonster $key}}
+                {{$tempered := GetTemperedMonster (print $monster)}}
                 <tr>
-                    <td id="{{$monster.Name}}">
+                    <td id="{{$monster.Name}}" style="vertical-align: middle">
                         <a href="monster_info/{{$monster.Name}}">
                             <img src="data/icons/{{$monster.Name}}.jpg" width="30">
                             {{$monster.Name}}
                         </a>
                     </td>
-                    <td id="{{$monster.Code}}">
+                    <td id="{{$monster.Code}}" style="vertical-align: middle">
                         {{$monster.Item}}
                     </td>
-                    <td>
+                    <td style="vertical-align: middle">
                         <form>
                             <input type="checkbox" id="{{print "itemBox" $monster.Code}}">
                         </form>
                     </td>
-                    <td id="{{$tempered.Code}}">
+                    <td id="{{$tempered.Code}}" style="vertical-align: middle">
                         {{if ne $tempered.Item ""}}
                             {{$tempered.Item}}
                         {{end}}
                     </td>
-                    <td>
+                    <td style="vertical-align: middle">
                         {{if ne $tempered.Item ""}}
                             <form>
                                 <input type="checkbox" id="{{print "itemBox" $tempered.Code}}">
