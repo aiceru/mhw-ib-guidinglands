@@ -12,6 +12,7 @@ import (
 	"os"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 const ( // Fields
@@ -43,23 +44,50 @@ const (
 	Wounded
 )
 
+type lvdelta int
+func (l lvdelta) String() string {
+	w := l / 10
+	r := l % 10
+
+	str := ""
+
+	for i := 0; i < int(r); i++ {
+		str += "▲"
+	}
+	for i := r; i < 0; i++ {
+		str += "▼"
+	}
+
+	if w == 1 {
+		str += "(▲)"
+	}
+
+	if len(str) == 0 {
+		str = "-"
+	}
+	return str
+}
+
 type MonsterInfo struct {
 	Code       int
 	Name       string
-	Ename string
+	Ename      string
 	Difficulty difficulty
 	Item       string
 	Habitat    [FieldMax][7]int
+	LvDelta [FieldMax]lvdelta
 }
 
 func (m MonsterInfo) Copy(l *MonsterInfo) {
 	for i := Forest; i < FieldMax; i++ {
+		l.LvDelta[i] = m.LvDelta[i]
 		for j := 0; j < 7; j++ {
 			l.Habitat[i][j] = m.Habitat[i][j]
 		}
 	}
 	l.Code = m.Code
 	l.Name = m.Name
+	l.Ename = m.Ename
 	l.Difficulty = m.Difficulty
 	l.Item = m.Item
 }
@@ -113,6 +141,11 @@ func init() {
 					} else {
 						return MonsterInfo{}
 					}
+				},
+			},
+			{
+				"Contains": func(str, substr string) bool {
+					return strings.Contains(str, substr)
 				},
 			},
 		},
