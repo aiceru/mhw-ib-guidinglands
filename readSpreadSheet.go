@@ -142,6 +142,7 @@ func getDataFromGoogleSheet() error {
 	}
 	makeHabitatList(Lava, lava)
 
+	makeLvDeltaList()
 	return nil
 }
 
@@ -161,6 +162,7 @@ func makeMonsterList(v *sheets.ValueRange) {
 					Difficulty: Normal,
 					Item:       row[2].(string),
 					Habitat:    [FieldMax][7]int{},
+					LvDelta:[FieldMax]lvdelta{},
 				}
 				monsters[m.Difficulty.String()+name] = m
 			}
@@ -172,6 +174,7 @@ func makeMonsterList(v *sheets.ValueRange) {
 					Difficulty: Tempered,
 					Item:       row[4].(string),
 					Habitat:    [FieldMax][7]int{},
+					LvDelta:[FieldMax]lvdelta{},
 				}
 				if name == "얀가루루가" {
 					m.Difficulty = Wounded
@@ -204,6 +207,52 @@ func makeHabitatList(field int, v *sheets.ValueRange) {
 					monsterInfo := monsters[diff.String()+name]
 					monsterInfo.Habitat[field][i] = tFreq
 				}
+			}
+		}
+	}
+}
+
+func makeLvDeltaList() {
+	for _, monster := range monsters {
+		if monster.Difficulty == Normal {
+			fieldsIns := make([]int, 0)
+			for f := Forest; f < FieldMax; f++ {
+				for lv := 0; lv < 7; lv++ {
+					if monster.Habitat[f][lv] > 0 {
+						fieldsIns = append(fieldsIns, f)
+						break
+					}
+				}
+			}
+
+			switch len(fieldsIns) {
+			case 1:
+				for i := Forest; i < FieldMax; i++ {
+					monster.LvDelta[i] = -1
+				}
+				monster.LvDelta[fieldsIns[0]] = 3
+			case 2:
+				for i := Forest; i < FieldMax; i++ {
+					monster.LvDelta[i] = -2
+				}
+				monster.LvDelta[fieldsIns[0]] = 13
+				monster.LvDelta[fieldsIns[1]] = 13
+			case 3:
+				for i := Forest; i < FieldMax; i++ {
+					monster.LvDelta[i] = -3
+				}
+				monster.LvDelta[fieldsIns[0]] = 12
+				monster.LvDelta[fieldsIns[1]] = 12
+				monster.LvDelta[fieldsIns[2]] = 12
+			case 4:
+				for i := Forest; i < FieldMax; i++ {
+					monster.LvDelta[i] = -3
+				}
+				monster.LvDelta[fieldsIns[0]] = 12
+				monster.LvDelta[fieldsIns[1]] = 12
+				monster.LvDelta[fieldsIns[2]] = 12
+				monster.LvDelta[fieldsIns[3]] = 12
+			case 5:
 			}
 		}
 	}
