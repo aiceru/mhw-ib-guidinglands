@@ -1,24 +1,27 @@
 <div class="container" align="center">
     <p class="h4 p-4">지대 / 레벨 별 출현 빈도</p>
 </div>
-<div class="container">
+<div class="container" align="center">
     <h5>삼림</h5>
-    <table class="table table-striped table-bordered table-sm">
-        <thead>
+    <table class="table table-striped table-bordered table-responsive-sm table-sm">
+        <thead class="thead_light">
         <tr>
-            <th style="width: 30%">Name</th>
-            <th style="width: 10%">Lv.1</th>
-            <th style="width: 10%">Lv.2</th>
-            <th style="width: 10%">Lv.3</th>
-            <th style="width: 10%">Lv.4</th>
-            <th style="width: 10%">Lv.5</th>
-            <th style="width: 10%">Lv.6</th>
-            <th style="width: 10%">Lv.7</th>
+            <th>Name</th>
+            <th style="width: 8%">Lv.1</th>
+            <th style="width: 8%">Lv.2</th>
+            <th style="width: 8%">Lv.3</th>
+            <th style="width: 8%">Lv.4</th>
+            <th style="width: 8%">Lv.5</th>
+            <th style="width: 8%">Lv.6</th>
+            <th style="width: 8%">Lv.7</th>
+            <th style="width: 8%">일반</th>
+            <th style="width: 8%">역전</th>
         </tr>
         </thead>
         <tbody>
         {{range $i, $monster := .ForestList}}
-            <tr>
+            {{$tempered := GetTemperedMonster (print $monster)}}
+            <tr id="f_tr_{{$monster.Code}}">
                 <td>
                     {{$monster.Name}}
                 </td>
@@ -31,27 +34,68 @@
                         {{end}}
                     </td>
                 {{end}}
+                <td id="f_gotItem{{$monster.Code}}">
+                    <script>
+                        $(document).ready(function() {
+                            let gotStr = "X";
+                            let got = "true" == localStorage.getItem("{{print "itemBox" $monster.Code}}");
+                            if (got) {
+                                gotStr = "O";
+                                $("#f_tr_{{$monster.Code}}").children('td').css('background-color', '#DDFFD2');
+                                {{if eq $tempered.Item ""}}
+                                $("#f_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                {{end}}
+                            }
+                            $("#f_gotItem{{$monster.Code}}").text(gotStr)
+                        })
+                    </script>
+                </td>
+                {{if ne $tempered.Item ""}}
+                    <td id="f_gotItem{{$tempered.Code}}">
+                        <script>
+                            $(document).ready(function() {
+                                let gotStr="-";
+                                gotStr="X"
+                                let got="true"==localStorage.getItem("{{print "itemBox" $tempered.Code}}");
+                                if (got) {
+                                    gotStr="O";
+                                    $("#f_tr_{{$monster.Code}}").children('td').css('background-color', '#DDFFD2');
+                                    if("true" == localStorage.getItem("{{print "itemBox" $monster.Code}}")) {
+                                        $("#f_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                    }
+                                }
+                                $("#f_gotItem{{$tempered.Code}}").text(gotStr)
+                            })
+                        </script>
+                    </td>
+                {{else}}
+                    <td>-</td>
+                {{end}}
             </tr>
         {{end}}
         </tbody>
     </table>
+    <br>
     <h5>황야</h5>
-    <table class="table table-striped table-bordered table-sm">
-        <thead>
+    <table class="table table-striped table-bordered table-responsive-sm table-sm">
+        <thead class="thead_light">
         <tr>
-            <th style="width: 30%">Name</th>
-            <th style="width: 10%">Lv.1</th>
-            <th style="width: 10%">Lv.2</th>
-            <th style="width: 10%">Lv.3</th>
-            <th style="width: 10%">Lv.4</th>
-            <th style="width: 10%">Lv.5</th>
-            <th style="width: 10%">Lv.6</th>
-            <th style="width: 10%">Lv.7</th>
+            <th>Name</th>
+            <th style="width: 8%">Lv.1</th>
+            <th style="width: 8%">Lv.2</th>
+            <th style="width: 8%">Lv.3</th>
+            <th style="width: 8%">Lv.4</th>
+            <th style="width: 8%">Lv.5</th>
+            <th style="width: 8%">Lv.6</th>
+            <th style="width: 8%">Lv.7</th>
+            <th style="width: 8%">일반</th>
+            <th style="width: 8%">역전</th>
         </tr>
         </thead>
         <tbody>
         {{range $i, $monster := .WildList}}
-            <tr>
+            {{$tempered := GetTemperedMonster (print $monster)}}
+            <tr id="w_tr_{{$monster.Code}}">
                 <td>
                     {{$monster.Name}}
                 </td>
@@ -64,27 +108,68 @@
                         {{end}}
                     </td>
                 {{end}}
+                <td id="w_gotItem{{$monster.Code}}">
+                    <script>
+                        $(document).ready(function() {
+                            let gotStr = "X";
+                            let got = "true" == localStorage.getItem("{{print "itemBox" $monster.Code}}");
+                            if (got) {
+                                gotStr = "O";
+                                $("#w_tr_{{$monster.Code}}").children('td').css('background-color', '#D6C49A');
+                                {{if eq $tempered.Item ""}}
+                                $("#w_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                {{end}}
+                            }
+                            $("#w_gotItem{{$monster.Code}}").text(gotStr)
+                        })
+                    </script>
+                </td>
+                {{if ne $tempered.Item ""}}
+                    <td id="w_gotItem{{$tempered.Code}}">
+                        <script>
+                            $(document).ready(function() {
+                                let gotStr="-";
+                                gotStr="X"
+                                let got="true"==localStorage.getItem("{{print "itemBox" $tempered.Code}}");
+                                if (got) {
+                                    gotStr="O";
+                                    $("#w_tr_{{$monster.Code}}").children('td').css('background-color', '#D6C49A');
+                                    if("true" == localStorage.getItem("{{print "itemBox" $monster.Code}}")) {
+                                        $("#w_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                    }
+                                }
+                                $("#w_gotItem{{$tempered.Code}}").text(gotStr)
+                            })
+                        </script>
+                    </td>
+                {{else}}
+                    <td>-</td>
+                {{end}}
             </tr>
         {{end}}
         </tbody>
     </table>
+    <br>
     <h5>육산호</h5>
-    <table class="table table-striped table-bordered table-sm">
-        <thead>
+    <table class="table table-striped table-bordered table-responsive-sm table-sm">
+        <thead class="thead_light">
         <tr>
-            <th style="width: 30%">Name</th>
-            <th style="width: 10%">Lv.1</th>
-            <th style="width: 10%">Lv.2</th>
-            <th style="width: 10%">Lv.3</th>
-            <th style="width: 10%">Lv.4</th>
-            <th style="width: 10%">Lv.5</th>
-            <th style="width: 10%">Lv.6</th>
-            <th style="width: 10%">Lv.7</th>
+            <th>Name</th>
+            <th style="width: 8%">Lv.1</th>
+            <th style="width: 8%">Lv.2</th>
+            <th style="width: 8%">Lv.3</th>
+            <th style="width: 8%">Lv.4</th>
+            <th style="width: 8%">Lv.5</th>
+            <th style="width: 8%">Lv.6</th>
+            <th style="width: 8%">Lv.7</th>
+            <th style="width: 8%">일반</th>
+            <th style="width: 8%">역전</th>
         </tr>
         </thead>
         <tbody>
         {{range $i, $monster := .CoralList}}
-            <tr>
+            {{$tempered := GetTemperedMonster (print $monster)}}
+            <tr id="c_tr_{{$monster.Code}}">
                 <td>
                     {{$monster.Name}}
                 </td>
@@ -97,27 +182,68 @@
                         {{end}}
                     </td>
                 {{end}}
+                <td id="c_gotItem{{$monster.Code}}">
+                    <script>
+                        $(document).ready(function() {
+                            let gotStr = "X";
+                            let got = "true" == localStorage.getItem("{{print "itemBox" $monster.Code}}");
+                            if (got) {
+                                gotStr = "O";
+                                $("#c_tr_{{$monster.Code}}").children('td').css('background-color', '#F0C9FF');
+                                {{if eq $tempered.Item ""}}
+                                $("#c_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                {{end}}
+                            }
+                            $("#c_gotItem{{$monster.Code}}").text(gotStr)
+                        })
+                    </script>
+                </td>
+                {{if ne $tempered.Item ""}}
+                    <td id="c_gotItem{{$tempered.Code}}">
+                        <script>
+                            $(document).ready(function() {
+                                let gotStr="-";
+                                gotStr="X"
+                                let got="true"==localStorage.getItem("{{print "itemBox" $tempered.Code}}");
+                                if (got) {
+                                    gotStr="O";
+                                    $("#c_tr_{{$monster.Code}}").children('td').css('background-color', '#F0C9FF');
+                                    if("true" == localStorage.getItem("{{print "itemBox" $monster.Code}}")) {
+                                        $("#c_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                    }
+                                }
+                                $("#c_gotItem{{$tempered.Code}}").text(gotStr)
+                            })
+                        </script>
+                    </td>
+                {{else}}
+                    <td>-</td>
+                {{end}}
             </tr>
         {{end}}
         </tbody>
     </table>
+    <br>
     <h5>독기</h5>
-    <table class="table table-striped table-bordered table-sm">
-        <thead>
+    <table class="table table-striped table-bordered table-responsive-sm table-sm">
+        <thead class="thead_light">
         <tr>
-            <th style="width: 30%">Name</th>
-            <th style="width: 10%">Lv.1</th>
-            <th style="width: 10%">Lv.2</th>
-            <th style="width: 10%">Lv.3</th>
-            <th style="width: 10%">Lv.4</th>
-            <th style="width: 10%">Lv.5</th>
-            <th style="width: 10%">Lv.6</th>
-            <th style="width: 10%">Lv.7</th>
+            <th>Name</th>
+            <th style="width: 8%">Lv.1</th>
+            <th style="width: 8%">Lv.2</th>
+            <th style="width: 8%">Lv.3</th>
+            <th style="width: 8%">Lv.4</th>
+            <th style="width: 8%">Lv.5</th>
+            <th style="width: 8%">Lv.6</th>
+            <th style="width: 8%">Lv.7</th>
+            <th style="width: 8%">일반</th>
+            <th style="width: 8%">역전</th>
         </tr>
         </thead>
         <tbody>
         {{range $i, $monster := .RottenList}}
-            <tr>
+            {{$tempered := GetTemperedMonster (print $monster)}}
+            <tr id="r_tr_{{$monster.Code}}">
                 <td>
                     {{$monster.Name}}
                 </td>
@@ -130,27 +256,68 @@
                         {{end}}
                     </td>
                 {{end}}
+                <td id="r_gotItem{{$monster.Code}}">
+                    <script>
+                        $(document).ready(function() {
+                            let gotStr = "X";
+                            let got = "true" == localStorage.getItem("{{print "itemBox" $monster.Code}}");
+                            if (got) {
+                                gotStr = "O";
+                                $("#r_tr_{{$monster.Code}}").children('td').css('background-color', '#FFE98D');
+                                {{if eq $tempered.Item ""}}
+                                $("#r_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                {{end}}
+                            }
+                            $("#r_gotItem{{$monster.Code}}").text(gotStr)
+                        })
+                    </script>
+                </td>
+                {{if ne $tempered.Item ""}}
+                    <td id="r_gotItem{{$tempered.Code}}">
+                        <script>
+                            $(document).ready(function() {
+                                let gotStr="-";
+                                gotStr="X"
+                                let got="true"==localStorage.getItem("{{print "itemBox" $tempered.Code}}");
+                                if (got) {
+                                    gotStr="O";
+                                    $("#r_tr_{{$monster.Code}}").children('td').css('background-color', '#FFE98D');
+                                    if("true" == localStorage.getItem("{{print "itemBox" $monster.Code}}")) {
+                                        $("#r_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                    }
+                                }
+                                $("#r_gotItem{{$tempered.Code}}").text(gotStr)
+                            })
+                        </script>
+                    </td>
+                {{else}}
+                    <td>-</td>
+                {{end}}
             </tr>
         {{end}}
         </tbody>
     </table>
+    <br>
     <h5>용암</h5>
-    <table class="table table-striped table-bordered table-sm">
-        <thead>
+    <table class="table table-striped table-bordered table-responsive-sm table-sm">
+        <thead class="thead_light">
         <tr>
-            <th style="width: 30%">Name</th>
-            <th style="width: 10%">Lv.1</th>
-            <th style="width: 10%">Lv.2</th>
-            <th style="width: 10%">Lv.3</th>
-            <th style="width: 10%">Lv.4</th>
-            <th style="width: 10%">Lv.5</th>
-            <th style="width: 10%">Lv.6</th>
-            <th style="width: 10%">Lv.7</th>
+            <th>Name</th>
+            <th style="width: 8%">Lv.1</th>
+            <th style="width: 8%">Lv.2</th>
+            <th style="width: 8%">Lv.3</th>
+            <th style="width: 8%">Lv.4</th>
+            <th style="width: 8%">Lv.5</th>
+            <th style="width: 8%">Lv.6</th>
+            <th style="width: 8%">Lv.7</th>
+            <th style="width: 8%">일반</th>
+            <th style="width: 8%">역전</th>
         </tr>
         </thead>
         <tbody>
         {{range $i, $monster := .LavaList}}
-            <tr>
+            {{$tempered := GetTemperedMonster (print $monster)}}
+            <tr id="l_tr_{{$monster.Code}}">
                 <td>
                     {{$monster.Name}}
                 </td>
@@ -162,6 +329,43 @@
                         {{else if eq $j 6}}<span style="color: #9370db;">★★★</span>
                         {{end}}
                     </td>
+                {{end}}
+                <td id="l_gotItem{{$monster.Code}}">
+                    <script>
+                        $(document).ready(function() {
+                            let gotStr = "X";
+                            let got = "true" == localStorage.getItem("{{print "itemBox" $monster.Code}}");
+                            if (got) {
+                                gotStr = "O";
+                                $("#l_tr_{{$monster.Code}}").children('td').css('background-color', '#FFD0C1');
+                                {{if eq $tempered.Item ""}}
+                                $("#l_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                {{end}}
+                            }
+                            $("#l_gotItem{{$monster.Code}}").text(gotStr)
+                        })
+                    </script>
+                </td>
+                {{if ne $tempered.Item ""}}
+                    <td id="l_gotItem{{$tempered.Code}}">
+                        <script>
+                            $(document).ready(function() {
+                                let gotStr="-";
+                                gotStr="X"
+                                let got="true"==localStorage.getItem("{{print "itemBox" $tempered.Code}}");
+                                if (got) {
+                                    gotStr="O";
+                                    $("#l_tr_{{$monster.Code}}").children('td').css('background-color', '#FFD0C1');
+                                    if("true" == localStorage.getItem("{{print "itemBox" $monster.Code}}")) {
+                                        $("#l_tr_{{$monster.Code}}").children('td').css('background-color', '#BFBFBF');
+                                    }
+                                }
+                                $("#l_gotItem{{$tempered.Code}}").text(gotStr)
+                            })
+                        </script>
+                    </td>
+                {{else}}
+                    <td>-</td>
                 {{end}}
             </tr>
         {{end}}
