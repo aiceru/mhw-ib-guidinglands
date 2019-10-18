@@ -46,7 +46,7 @@ const (
 type MonsterInfo struct {
 	Code       int
 	Name       string
-	Ename string
+	Ename      string
 	Difficulty difficulty
 	Item       string
 	Habitat    [FieldMax][7]int
