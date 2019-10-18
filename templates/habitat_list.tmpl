@@ -23,7 +23,9 @@
             {{$tempered := GetTemperedMonster (print $monster)}}
             <tr id="f_tr_{{$monster.Code}}">
                 <td>
+                    <a href="monster_info/{{$monster.Name}}">
                     {{$monster.Name}}
+                    </a>
                 </td>
                 {{range $j := index $monster.Habitat 0}}
                     <td>
@@ -97,7 +99,9 @@
             {{$tempered := GetTemperedMonster (print $monster)}}
             <tr id="w_tr_{{$monster.Code}}">
                 <td>
+                    <a href="monster_info/{{$monster.Name}}">
                     {{$monster.Name}}
+                    </a>
                 </td>
                 {{range $j := index $monster.Habitat 1}}
                     <td>
@@ -171,7 +175,9 @@
             {{$tempered := GetTemperedMonster (print $monster)}}
             <tr id="c_tr_{{$monster.Code}}">
                 <td>
+                    <a href="monster_info/{{$monster.Name}}">
                     {{$monster.Name}}
+                    </a>
                 </td>
                 {{range $j := index $monster.Habitat 2}}
                     <td>
@@ -245,7 +251,9 @@
             {{$tempered := GetTemperedMonster (print $monster)}}
             <tr id="r_tr_{{$monster.Code}}">
                 <td>
+                    <a href="monster_info/{{$monster.Name}}">
                     {{$monster.Name}}
+                    </a>
                 </td>
                 {{range $j := index $monster.Habitat 3}}
                     <td>
@@ -319,7 +327,9 @@
             {{$tempered := GetTemperedMonster (print $monster)}}
             <tr id="l_tr_{{$monster.Code}}">
                 <td>
+                    <a href="monster_info/{{$monster.Name}}">
                     {{$monster.Name}}
+                    </a>
                 </td>
                 {{range $j := index $monster.Habitat 4}}
                     <td>

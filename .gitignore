@@ -244,3 +244,5 @@ fabric.properties
 # vendor/
 
 out/
+
+data/monsters.json
