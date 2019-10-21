@@ -1,0 +1,11 @@
+#left_tab {
+    position: fixed;
+    bottom: -4px;
+    left: 10px;
+}
+
+#right_tab {
+    position: fixed;
+    bottom: -4px;
+    right: 10px;
+}
