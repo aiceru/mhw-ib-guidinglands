@@ -144,6 +144,30 @@ func init() {
 				},
 			},
 			{
+				"GetCombinedMonster": func(name string) MonsterInfo {
+					info := monsters[name]
+					m := MonsterInfo{}
+					info.Copy(&m)
+
+					tempered := monsters["역전 "+m.Name]
+
+					if m.Name == "얀가루루가" {
+						tempered = monsters["상처입은 "+m.Name]
+					}
+
+					if tempered != nil {
+						for i := Forest; i < FieldMax; i++ {
+							for j := 0; j < 7; j++ {
+								if tempered.Habitat[i][j] != 0 {
+									m.Habitat[i][j] = tempered.Habitat[i][j] + 3
+								}
+							}
+						}
+					}
+					return m
+				},
+			},
+			{
 				"Contains": func(str, substr string) bool {
 					return strings.Contains(str, substr)
 				},
@@ -294,6 +318,7 @@ func displayAppearLists(w http.ResponseWriter, req *http.Request, ps httprouter.
 	}
 	renderer.HTML(w, http.StatusOK, "habitat_list",
 		map[string]interface{}{
+			"MonsterList": monsters,
 			"ForestList": appearList[Forest],
 			"WildList":   appearList[Wildspire],
 			"CoralList":  appearList[Coral],

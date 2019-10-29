@@ -1,9 +1,5 @@
-{{ $monster := GetCombinedMonster .Name }}
 <div class="container" align="center">
-    <p class="h4 p-4">{{$monster.Name}}</p>
-</div>
-<div class="container" align="center">
-    <img src="/data/imgs/{{$monster.Name}}.jpg">
+    <img src="/data/imgs/{{.Name}}.jpg">
     <br><br>
     <table class="table table-striped table-bordered table-responsive-sm table-sm">
         <thead>
@@ -29,7 +25,7 @@
                     {{else if eq $i 4}}용암
                     {{end}}
                 </td>
-                {{range $j := index $monster.Habitat $i}}
+                {{range $j := index $.Info.Habitat $i}}
                     <td>
                         {{if eq $j 1}}★{{else if eq $j 2}}★★{{else if eq $j 3}}★★★
                         {{else if eq $j 4}}<span style="color: #9370db;">★</span>
@@ -56,7 +52,7 @@
         <tr style="text-align: center">
             {{range $i := Iterate 0 5}}
                 <td>
-                    {{$v := (print (index $monster.LvDelta $i))}}
+                    {{$v := (print (index $.Info.LvDelta $i))}}
                     {{if Contains $v "▲"}}
                     <span style="color: #F75133;">
                     {{else}}
@@ -68,6 +64,4 @@
         </tr>
         </tbody>
     </table>
-    클릭하면 창이 닫힙니다
 </div>
-
