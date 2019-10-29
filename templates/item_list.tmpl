@@ -1,6 +1,7 @@
 <div class="container" align="center">
     <p class="h4 p-4">몬스터 소재 체크리스트</p>
 </div>
+<div id="popup_bg" class="popup_mask"></div>
 <div class="container">
     <table class="table table-striped table-bordered table-responsive-sm table-sm">
         <thead>
@@ -18,10 +19,40 @@
                 {{$tempered := GetTemperedMonster (print $monster)}}
                 <tr>
                     <td id="{{$monster.Name}}" style="vertical-align: middle">
-                        <a href="monster_info/{{$monster.Name}}">
+                        <a href="#{{$monster.Code}}_layer" id="{{$monster.Code}}_open">
                             <img src="data/icons/{{$monster.Name}}.jpg" width="30">
                             {{$monster.Name}}
                         </a>
+                        <div id="{{$monster.Code}}_layer" class="popup_layer" align="center">
+                            <a id="{{$monster.Code}}_close">
+                            {{ template "monster_info" $monster }}
+                            </a>
+                        </div>
+                        <script>
+                            $(document).ready(function() {
+                                $("#{{$monster.Code}}_open").click(function(event) {
+                                    layerHeight = $("#{{$monster.Code}}_layer").outerHeight();
+                                    layerWidth = $("#{{$monster.Code}}_layer").outerWidth();
+                                    cTop = (($(window).height()-layerHeight)/2+$(document.body).scrollTop());
+                                    cLeft = (($(window).width()-layerWidth)/2+$(document.body).scrollLeft());
+                                    $("#popup_bg").css({
+                                        "top": $(document.body).scrollTop(),
+                                    });
+                                    $("#{{$monster.Code}}_layer").css({
+                                        "top": cTop+"px",
+                                        "left": cLeft+"px",
+                                    });
+                                    $("#popup_bg").css("display","block");
+                                    $("#{{$monster.Code}}_layer").css("display","block");
+                                    $("body").css("overflow","hidden");
+                                });
+                                $("#{{$monster.Code}}_close").click(function(event) {
+                                    $("#popup_bg").css("display","none");
+                                    $("#{{$monster.Code}}_layer").css("display","none");
+                                    $("body").css("overflow","auto");
+                                });
+                            });
+                        </script>
                     </td>
                     <td id="{{$monster.Code}}" style="vertical-align: middle">
                         {{$monster.Item}}
